@@ -13,6 +13,9 @@ public class CollisionController : MonoBehaviour
     public float rayCastDistance;
     GameObject ghostObject = null;
     public Torch torch;
+
+    public bool flip = false;
+    public Transform lightPoint;
     public LayerMask lampLayer;
     void Awake()
     {
@@ -40,14 +43,20 @@ public class CollisionController : MonoBehaviour
         Vector2 normDirection = direction.normalized;
 
 
-        HitMirror(playerPosition, normDirection, direction);
+        HitMirror();
         HitGhost(playerPosition, normDirection);
         
     }
 
-    void HitMirror(Vector2 playerPos, Vector2 normDir, Vector2 dir)
+    void HitMirror()
     {
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(playerPos, normDir, rayCastDistance, mirrorLayer);
+        Vector2 playerPos = lightPoint.position;
+        Vector2 forward = new Vector2(1,0);
+        float angle = flip ? -20 : 20;
+        Vector2 dir =  lightPoint.rotation * Quaternion.Euler(0,0,angle) * forward;
+        Vector2 normDir = dir.normalized;
+        RaycastHit2D mirrorCollision = Physics2D.Raycast( playerPos, normDir, rayCastDistance, mirrorLayer);
+        Debug.DrawRay(playerPos, dir);
         if (mirrorCollision.collider != null) 
         {
             Collider2D currentMirrorCollider = mirrorCollision.collider;

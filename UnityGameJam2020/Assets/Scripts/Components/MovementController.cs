@@ -10,8 +10,13 @@ public class MovementController : MonoBehaviour
     public float jumpForce;
     public Rigidbody2D rb;
     public  Animator animator;
+    public CollisionController collisionController;
 
     public GameObject Torch;
+    public GameObject Legs;
+
+    public Sprite legs_right;
+    public Sprite legs_left;
     public Sprite sandeep;
     public Sprite sandeep_left;
     public Sprite sandeep_arm;
@@ -24,7 +29,7 @@ public class MovementController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();    
         animator = GetComponent<Animator>();
-       
+        collisionController = GetComponent<CollisionController>();
     }
     
     void Update()
@@ -36,20 +41,30 @@ public class MovementController : MonoBehaviour
              isJumping = true;
          }
 
-        if(mouseScreenPosition.x < gameObject.transform.position.x)
+        if(mouseScreenPosition.x  < gameObject.transform.position.x - 0.6f)
         {
             flipLeft();
         }
-        else
+        else if(mouseScreenPosition.x  > gameObject.transform.position.x + 0.6f)
         {
             flipRight();
+        } 
+        else
+        {
+            Torch.GetComponent<Torch>().rotate = false;
         }
     }
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        Vector2 movement = new Vector2(moveHorizontal, 0);
-        rb.AddForce(movement * speed);
+        if(Input.GetAxisRaw("Horizontal") > 0){
+            Legs.GetComponent<SpriteRenderer>().sprite = legs_right;
+        }
+
+        if(Input.GetAxisRaw("Horizontal") < 0){
+            Legs.GetComponent<SpriteRenderer>().sprite = legs_left;
+        }
+        
+        transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
         if(isJumping)
         {
             rb.AddForce(new Vector2(0f, jumpForce));
@@ -77,9 +92,19 @@ public class MovementController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep_left;
         Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm_left;
         Torch.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        Torch.transform.localPosition = new Vector3(0.3f, 0.2f, 0);
+        Torch.transform.localPosition = new Vector3(0.35f, 0.25f, 0);
         Torch.GetComponent<SpriteRenderer>().flipX = true;
         Torch.transform.localScale = new Vector3(1,-1,1);
+        Torch.GetComponent<Torch>().rotate = true;
+        collisionController.flip = false;
+        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_left)
+        {
+            Legs.transform.localPosition = new Vector3(-0.045f,0,0);
+        }
+        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_right)
+        {
+            Legs.transform.localPosition = new Vector3(0.06f,0,0);
+        }
     }
 
     public void flipRight()
@@ -88,9 +113,19 @@ public class MovementController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep;
         Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm;
         Torch.GetComponent<SpriteRenderer>().sortingOrder = -1;
-        Torch.transform.localPosition = new Vector3(-0.066f, 0.2f, 0);
+        Torch.transform.localPosition = new Vector3(0.2f, 0.3f, 0);
         Torch.GetComponent<SpriteRenderer>().flipX = false;
         Torch.transform.localScale = new Vector3(1,1,1);
-    }
+        Torch.GetComponent<Torch>().rotate = true;
+        collisionController.flip = true;
 
+        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_left)
+        {
+            Legs.transform.localPosition = new Vector3(-0.09f,0,0);
+        }
+        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_right)
+        {
+            Legs.transform.localPosition = new Vector3(-0.03f,0,0);
+        }
+    }
 }
