@@ -10,12 +10,18 @@ public class Torch : MonoBehaviour
     Camera mainCam;
     Transform currentTransform;
     Light2D currentLightSource; 
+    SpriteRenderer spriteRenderer;
+    [SerializeField]
+    Transform LightPoint;
+    [SerializeField]
+    GameObject torchLight;
     public bool isTorchOn = true;
     void Awake()
     {
         mainCam = Camera.main;
         currentTransform = GetComponent<Transform>();
         currentLightSource = GetComponent<Light2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
@@ -27,8 +33,9 @@ public class Torch : MonoBehaviour
     {
         Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 lookAt = mouseScreenPosition;
-        float AngleRad = Mathf.Atan2(lookAt.y - this.transform.position.y, lookAt.x - this.transform.position.x);
+        float AngleRad = Mathf.Atan2(lookAt.y - this.transform.parent.position.y, lookAt.x - this.transform.parent.position.x);
         float AngleDeg = (180 / Mathf.PI) * AngleRad;
+        
         this.transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
     }
 

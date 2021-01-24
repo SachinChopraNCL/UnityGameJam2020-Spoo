@@ -11,11 +11,13 @@ public class MovementController : MonoBehaviour
     public Rigidbody2D rb;
     public  Animator animator;
 
+    public GameObject Torch;
     public Sprite sandeep;
     public Sprite sandeep_left;
     public Sprite sandeep_arm;
     public Sprite sandeep_arm_left;
 
+    public Transform LightPoint;
     public bool isJumping = false;
     private bool isFacingRight;
     void Awake()
@@ -73,19 +75,22 @@ public class MovementController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep_left;
-        GameObject.Find("Torch").GetComponent<SpriteRenderer>().sprite = sandeep_arm_left;
-        GameObject.Find("Torch").GetComponent<SpriteRenderer>().sortingOrder = 2;
-        GameObject.Find("Torch").transform.localPosition = new Vector3(0.3f, 0.2f, 0);
-        
+        Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm_left;
+        Torch.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        Torch.transform.localPosition = new Vector3(0.3f, 0.2f, 0);
+        Torch.GetComponent<SpriteRenderer>().flipX = true;
+        Torch.transform.localScale = new Vector3(1,-1,1);
     }
 
     public void flipRight()
     {
         isFacingRight = !isFacingRight;
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep;
-        GameObject.Find("Torch").GetComponent<SpriteRenderer>().sprite = sandeep_arm;
-        GameObject.Find("Torch").GetComponent<SpriteRenderer>().sortingOrder = -1;
-        GameObject.Find("Torch").transform.localPosition = new Vector3(-0.066f, 0.2f, 0);
+        Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm;
+        Torch.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        Torch.transform.localPosition = new Vector3(-0.066f, 0.2f, 0);
+        Torch.GetComponent<SpriteRenderer>().flipX = false;
+        Torch.transform.localScale = new Vector3(1,1,1);
     }
 
 }

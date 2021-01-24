@@ -48,7 +48,7 @@ public class CollisionController : MonoBehaviour
     void HitMirror(Vector2 playerPos, Vector2 normDir, Vector2 dir)
     {
         RaycastHit2D mirrorCollision = Physics2D.Raycast(playerPos, normDir, rayCastDistance, mirrorLayer);
-        if (mirrorCollision.collider != null)
+        if (mirrorCollision.collider != null) 
         {
             Collider2D currentMirrorCollider = mirrorCollision.collider;
             Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
