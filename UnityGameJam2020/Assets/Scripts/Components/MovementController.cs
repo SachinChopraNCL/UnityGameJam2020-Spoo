@@ -41,11 +41,11 @@ public class MovementController : MonoBehaviour
              isJumping = true;
          }
 
-        if(mouseScreenPosition.x  < gameObject.transform.position.x - 0.6f)
+        if(mouseScreenPosition.x  < gameObject.transform.position.x)
         {
             flipLeft();
         }
-        else if(mouseScreenPosition.x  > gameObject.transform.position.x + 0.6f)
+        else if(mouseScreenPosition.x  > gameObject.transform.position.x)
         {
             flipRight();
         } 
@@ -92,19 +92,10 @@ public class MovementController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep_left;
         Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm_left;
         Torch.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        Torch.transform.localPosition = new Vector3(0.35f, 0.25f, 0);
         Torch.GetComponent<SpriteRenderer>().flipX = true;
         Torch.transform.localScale = new Vector3(1,-1,1);
         Torch.GetComponent<Torch>().rotate = true;
         collisionController.flip = false;
-        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_left)
-        {
-            Legs.transform.localPosition = new Vector3(-0.045f,0,0);
-        }
-        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_right)
-        {
-            Legs.transform.localPosition = new Vector3(0.06f,0,0);
-        }
     }
 
     public void flipRight()
@@ -113,19 +104,9 @@ public class MovementController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sandeep;
         Torch.GetComponent<SpriteRenderer>().sprite = sandeep_arm;
         Torch.GetComponent<SpriteRenderer>().sortingOrder = -1;
-        Torch.transform.localPosition = new Vector3(0.2f, 0.3f, 0);
         Torch.GetComponent<SpriteRenderer>().flipX = false;
         Torch.transform.localScale = new Vector3(1,1,1);
         Torch.GetComponent<Torch>().rotate = true;
         collisionController.flip = true;
-
-        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_left)
-        {
-            Legs.transform.localPosition = new Vector3(-0.09f,0,0);
-        }
-        if(Legs.GetComponent<SpriteRenderer>().sprite == legs_right)
-        {
-            Legs.transform.localPosition = new Vector3(-0.03f,0,0);
-        }
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aa6e2d8ceb2db7c459950729b5f56e8a
+guid: 1ff839f83f1f3c3479dda5eea4f0e3d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5461939220973065195
-    second: sandeep_arm_left_0
+      213: -2362986557764718786
+    second: sandeep_legless_right_1_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 9
-  spritePivot: {x: 0.86859, y: 0.6380308}
-  spritePixelsToUnits: 128
+  spritePivot: {x: 0.34972674, y: 0.20059192}
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,13 +102,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sandeep_arm_left_0
+      name: sandeep_legless_right_1_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 56
-        width: 78
-        height: 72
+        x: 10
+        y: 1
+        width: 64
+        height: 68
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -116,8 +116,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be39fda68c4bccb40800000000000000
-      internalID: 5461939220973065195
+      spriteID: e3f296fce3cf43fd0800000000000000
+      internalID: -2362986557764718786
       vertices: []
       indices: 
       edges: []
