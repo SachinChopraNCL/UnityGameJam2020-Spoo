@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 3689600079781890274
     second: sandeep_idle_right_1_0
+  - first:
+      213: 1687185230368508895
+    second: sandeep_idle_right_1_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,15 +112,15 @@ TextureImporter:
         y: 48
         width: 74
         height: 144
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5540541, y: 0.5625}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e807a669b7143330800000000000000
-      internalID: 3689600079781890274
+      spriteID: fdb866627061a6710800000000000000
+      internalID: 1687185230368508895
       vertices: []
       indices: 
       edges: []

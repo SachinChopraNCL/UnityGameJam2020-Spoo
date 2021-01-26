@@ -17,12 +17,15 @@ public class Torch : MonoBehaviour
     GameObject torchLight;
     public bool isTorchOn = true;  
     public bool rotate = false;
+
+    public Animator animator;
     void Awake()
     {
         mainCam = Camera.main;
         currentTransform = GetComponent<Transform>();
         currentLightSource = GetComponent<Light2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
     void Update()
     {
