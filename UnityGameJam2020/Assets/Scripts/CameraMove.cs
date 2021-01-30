@@ -11,7 +11,7 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("Sandeep").transform;
     }
     void Update()
     {

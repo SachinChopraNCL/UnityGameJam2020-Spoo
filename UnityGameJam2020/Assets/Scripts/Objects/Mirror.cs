@@ -61,7 +61,8 @@ public class Mirror : MonoBehaviour
         
         newDirection = Vector3.zero;
         Vector3 playerDirection = mirrorRayCast.point - origin;
-          
+        
+        Debug.Log(mirrorRayCast.normal);
         newDirection = Vector3.Reflect(playerDirection, mirrorRayCast.normal);
         currentReflection.transform.rotation = Quaternion.FromToRotation(Vector2.right, newDirection);
 
@@ -81,14 +82,7 @@ public class Mirror : MonoBehaviour
           float ratio = (float)newDirection.y / (float)newDirection.x;
           currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
         }
-
-        RaycastHit2D lampCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance, lampLayer);
-        if(lampCollision.collider != null)
-        {
-            Lamp currentLamp = lampCollision.collider.gameObject.transform.parent.gameObject.GetComponent<Lamp>();
-            currentLamp.isCharging = true;
-        }
        
     }
-  
+
 }

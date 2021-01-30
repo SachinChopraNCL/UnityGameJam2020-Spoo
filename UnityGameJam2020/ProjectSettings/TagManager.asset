@@ -22,7 +22,7 @@ TagManager:
   - Obstacle
   - Enemy
   - Lamp
-  - 
+  - Reflection
   - 
   - 
   - 
@@ -60,4 +60,7 @@ TagManager:
     locked: 0
   - name: Torch
     uniqueID: 16291511
+    locked: 0
+  - name: Ignore
+    uniqueID: 1768129185
     locked: 0
