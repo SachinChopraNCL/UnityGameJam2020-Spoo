@@ -6,8 +6,7 @@ using System.Linq;
 
 public class Lamp : MonoBehaviour
 {
-   public float maxEnergy;
-   public Light2D lampLight;
+       public Light2D lampLight;
    public float innerRadius;
    public float outerRadius;
    public float rateMin;
@@ -15,6 +14,10 @@ public class Lamp : MonoBehaviour
    public bool canSet = true;
    public LevelDirector levelDirector;
    public bool isCharging = false;
+
+   public bool discharging = false;
+   public Animator fireAnimator;
+   public GameObject fireRenderer;
    float val = 0.25f;
    public List<PhantomPlatform> phantomPlatforms = new List<PhantomPlatform>();
    
@@ -24,18 +27,29 @@ public class Lamp : MonoBehaviour
    }
    public void Update()
    {   
-       if(isCharging)
+       if(isCharging && !discharging)
        {
          if(lampLight.pointLightOuterRadius < outerRadius)
          {
-            lampLight.pointLightOuterRadius += (float) outerRadius / (maxEnergy * rateMax);
-            lampLight.pointLightInnerRadius += (float) innerRadius/ (maxEnergy * rateMax);
+            lampLight.pointLightOuterRadius += (float) outerRadius /  rateMax;
+            lampLight.pointLightInnerRadius += (float) innerRadius/  rateMax;
+
+            float xScale = fireRenderer.transform.localScale.x + ((float)1f / rateMax);
+            float yScale = fireRenderer.transform.localScale.y + ((float)1f / rateMax);
+            float yPos = fireRenderer.transform.localPosition.y + ((float)0.2f / rateMax);
+            fireRenderer.transform.localScale = new Vector3(xScale, yScale, 1);
+            fireRenderer.transform.localPosition = new Vector3(0, yPos, 0);
          }
        }
-       else 
+       else
        {    
-            lampLight.pointLightOuterRadius -= (float) outerRadius / (maxEnergy*rateMin);
-            lampLight.pointLightInnerRadius -= (float) innerRadius / (maxEnergy*rateMin);
+            lampLight.pointLightOuterRadius -= (float) outerRadius / rateMin;
+            lampLight.pointLightInnerRadius -= (float) innerRadius / rateMin;
+            float xScale = fireRenderer.transform.localScale.x - ((float)1.5f / rateMin);
+            float yScale = fireRenderer.transform.localScale.y - ((float)1.5f / rateMin);
+            float yPos = fireRenderer.transform.localPosition.y - ((float)0.3f / rateMin);
+            fireRenderer.transform.localScale = new Vector3(xScale, yScale, 1);
+            fireRenderer.transform.localPosition = new Vector3(0, yPos, 0);
             if(lampLight.pointLightOuterRadius < 1)
             {
                 lampLight.pointLightOuterRadius = 1f;
@@ -47,6 +61,7 @@ public class Lamp : MonoBehaviour
            foreach(PhantomPlatform phantomPlatform in phantomPlatforms)
            {
                phantomPlatform.SwitchLayerMask("Ground");
+               phantomPlatform.isActive = true;
            }
        }
 
@@ -65,6 +80,7 @@ public class Lamp : MonoBehaviour
 
        if(lampLight.pointLightOuterRadius <= 2)
        {
+           
            val -= 0.01f;
            if(val < 0.25f)
            {
@@ -79,19 +95,25 @@ public class Lamp : MonoBehaviour
 
        if(lampLight.pointLightOuterRadius <= 1)
        {
-         
+           fireAnimator.transform.localScale = new Vector3(1.45f, 1.45f, 0);
+           fireAnimator.transform.localPosition = new Vector3(0,0.16f,0);
+           fireAnimator.Play("smallFire");
            foreach(PhantomPlatform phantomPlatform in phantomPlatforms)
            {
                phantomPlatform.SwitchLayerMask("Ignore");
+               phantomPlatform.isActive = false;
            }
            canSet = true;
+           discharging = false;
        }
 
        if(lampLight.pointLightOuterRadius >= outerRadius && canSet)
        {
+           fireAnimator.Play("bigFire");
            levelDirector.isPlatforming = true;
            levelDirector.instantiate = true;
            canSet = false;
+           discharging = true;
        }
    }
 

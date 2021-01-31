@@ -6,6 +6,21 @@ public enum Direction
     toUpper,
     toLower
 }
+
+public enum Orientation
+{
+  up,
+  down,
+  left,
+  right
+}
+
+public enum Alignment
+{
+  horizontal,
+  vertical
+}
+
 public class RailHandler : MonoBehaviour
 {
     public GameObject mirror; 
@@ -15,13 +30,30 @@ public class RailHandler : MonoBehaviour
     public bool isMoving = false;
     public Direction direction;
 
+    public Orientation orientation;
+    public Alignment alignment;
+
     void Awake()
     {
-        currentMirror = Instantiate(mirror, lowerbound.position, Quaternion.identity);
-        if(upperbound.position.y !=lowerbound.position.y)
+        if(alignment == Alignment.vertical)
         {
-          currentMirror.transform.rotation = Quaternion.FromToRotation(Vector2.right, Vector2.up);
+          this.transform.localRotation = Quaternion.Euler(0,0,90);
         }
+        currentMirror = Instantiate(mirror, lowerbound.position, Quaternion.identity);
+        currentMirror.transform.rotation = Quaternion.FromToRotation(Vector2.right, Vector2.up);
+        if(orientation == Orientation.up){
+          currentMirror.transform.rotation = Quaternion.Euler(0,0,90);
+        }
+        if(orientation == Orientation.down){
+            currentMirror.transform.rotation = Quaternion.Euler(0,0,-90);
+        }
+        if(orientation == Orientation.left){
+          currentMirror.transform.rotation = Quaternion.Euler(0,0,-180);
+        }
+        if(orientation == Orientation.right){
+          currentMirror.transform.rotation = Quaternion.Euler(0,0,-180);
+        }
+     
     }
 
     void Update()

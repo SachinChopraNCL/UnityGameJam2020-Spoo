@@ -37,24 +37,20 @@ public class CollisionController : MonoBehaviour
 
     void Raycaster()
     {
-        Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position;
-        Vector2 direction = mouseScreenPosition - playerPosition;
-        Vector2 normDirection = direction.normalized;
-
         Vector2 lightPos = lightPoint.position;
         Vector2 forward = new Vector2(1,0);
-        float angle = flip ? 90 : 90;
+        float angle = 90;
+
         Vector2 dir =  lightPoint.rotation * Quaternion.Euler(0,0,angle) * forward;
         Vector2 normDir = dir.normalized;
+
         HitMirror(lightPos, dir, normDir);        
     }
 
     void HitMirror(Vector2 lightPos, Vector2 dir, Vector2 normDir)
     {   
         RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mirrorLayer);
-        Debug.DrawRay(lightPos, dir);
-        if (mirrorCollision.collider != null) 
+        if (mirrorCollision.collider != null && mirrorCollision.distance < rayCastDistance) 
         {
             Collider2D currentMirrorCollider = mirrorCollision.collider;
             Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
@@ -63,4 +59,6 @@ public class CollisionController : MonoBehaviour
 
         }
     }
+
+    
 }

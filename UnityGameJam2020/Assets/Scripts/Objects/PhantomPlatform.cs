@@ -6,7 +6,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 public class PhantomPlatform : MonoBehaviour
 {
    public string layerMask;
-   private bool isActive = false;
+   public bool isActive = true;
 
    public ShadowCaster2D shadowCaster; 
 

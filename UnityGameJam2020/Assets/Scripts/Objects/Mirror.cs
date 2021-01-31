@@ -62,7 +62,6 @@ public class Mirror : MonoBehaviour
         newDirection = Vector3.zero;
         Vector3 playerDirection = mirrorRayCast.point - origin;
         
-        Debug.Log(mirrorRayCast.normal);
         newDirection = Vector3.Reflect(playerDirection, mirrorRayCast.normal);
         currentReflection.transform.rotation = Quaternion.FromToRotation(Vector2.right, newDirection);
 
