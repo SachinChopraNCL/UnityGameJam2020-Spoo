@@ -6,38 +6,26 @@ public class AudioController : MonoBehaviour
 {
     public AudioClip jumpAudio;
     public AudioClip walkAudio;
-    bool isPlayer;
 
-    // Start is called before the first frame update
-    void Start()
+    public void PlayJump()
     {
-       isPlayer = gameObject.CompareTag("Player");
+        gameObject.GetComponent<AudioSource>().clip = jumpAudio;
+        gameObject.GetComponent<AudioSource>().Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayWalk()
     {
-        if (isPlayer)
+        if( !gameObject.GetComponent<AudioSource>().isPlaying)
         {
-            PlayerAudio();
-        }
-    }
-
-    void PlayerAudio()
-    {
-        if(Input.GetKeyDown("a")||Input.GetKeyDown("d")){
             gameObject.GetComponent<AudioSource>().clip = walkAudio;
             gameObject.GetComponent<AudioSource>().Play();
         }
-        if (Input.GetKeyUp("a")||Input.GetKeyUp("d")||Input.GetKeyUp(KeyCode.Space))
-        {
-            gameObject.GetComponent<AudioSource>().Stop();
-        }
-        if (Input.GetKeyDown("space"))
-        {
-            gameObject.GetComponent<AudioSource>().clip = jumpAudio;
-            gameObject.GetComponent<AudioSource>().Play();
-        }
-    }    
+   
+    }
+
+    public void Stop()
+    {
+        gameObject.GetComponent<AudioSource>().Pause();
+    }
 
 }

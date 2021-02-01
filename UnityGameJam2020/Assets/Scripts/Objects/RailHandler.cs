@@ -53,6 +53,7 @@ public class RailHandler : MonoBehaviour
         if(orientation == Orientation.right){
           currentMirror.transform.rotation = Quaternion.Euler(0,0,-180);
         }
+        currentMirror.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
      
     }
 

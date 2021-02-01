@@ -5,16 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class DoorScript : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         string sceneName = SceneManager.GetActiveScene().name;
-
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.layer == 10)
         {
-            if (sceneName == "Mansion")
+            if(Input.GetMouseButton(0))
             {
-
-                SceneManager.LoadScene("Credits");
+                if (sceneName == "TestScene")
+                {
+                    SceneManager.LoadScene("Credits");
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ public class MovementController : MonoBehaviour
     public Rigidbody2D rb;
     public  Animator animator;
 
+    public AudioController audioController;
     public Animator legsAnimator;
     public CollisionController collisionController;
 
@@ -41,10 +42,12 @@ public class MovementController : MonoBehaviour
         animator = GetComponent<Animator>();
         collisionController = GetComponent<CollisionController>();
         torch = Torch.GetComponent<Torch>();
+        audioController = GameObject.Find("Mansion").GetComponent<AudioController>();
     }
     
     void Update()
     {
+        //audioController.PlayWalk();
         if(!stunned){
             Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -84,6 +87,7 @@ public class MovementController : MonoBehaviour
             {
                 Torch.GetComponent<Torch>().rotate = false;
             }
+
 
             if(Input.GetAxisRaw("Horizontal") > 0){
                 legsAnimator.SetInteger("direction",1);
@@ -138,6 +142,11 @@ public class MovementController : MonoBehaviour
             timeElapsed = 0;
         }
 
+        if(IsGrounded() && Input.GetAxisRaw("Horizontal") != 0)
+        {
+            audioController.PlayWalk();
+        }
+
     }
     void FixedUpdate()
     {
@@ -149,10 +158,11 @@ public class MovementController : MonoBehaviour
             if(Input.GetAxisRaw("Horizontal") < 0){
                 Legs.GetComponent<SpriteRenderer>().sprite = legs_left;
             }
-        
+
             transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
             if(isJumping)
             {
+                audioController.PlayJump();
                 rb.AddForce(new Vector2(0f, jumpForce));
                 isJumping = false;
             }
