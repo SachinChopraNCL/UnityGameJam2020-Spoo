@@ -26,7 +26,7 @@ public class LampAudioController : MonoBehaviour
     {
         if(!audioSource.isPlaying)
         {
-            audioSource.volume = 0.6f;
+            audioSource.volume = 0.3f;
             audioSource.clip = fireHigh;
             audioSource.Play();
         }
