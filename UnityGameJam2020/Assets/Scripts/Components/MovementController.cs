@@ -42,7 +42,6 @@ public class MovementController : MonoBehaviour
         animator = GetComponent<Animator>();
         collisionController = GetComponent<CollisionController>();
         torch = Torch.GetComponent<Torch>();
-        audioController = GameObject.Find("Mansion").GetComponent<AudioController>();
     }
     
     void Update()

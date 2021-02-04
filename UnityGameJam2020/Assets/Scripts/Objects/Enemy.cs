@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Light2D light;
     public AIDestinationSetter destination;
+    private EnemyAudioController audioController;
     void Start()
     {
       player = GameObject.Find("Sandeep");
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour
       playerPosition = player.transform;
       startingPosition = transform.position;
       animator.Play("Appear");
+      audioController = GetComponent<EnemyAudioController>();
     }
 
     void Update()
@@ -50,7 +52,6 @@ public class Enemy : MonoBehaviour
         {
             transform.localScale = new Vector3(1,1,1);
         }
-
         if(health <= 0)
         {
             animator.Play("Death");
@@ -61,8 +62,6 @@ public class Enemy : MonoBehaviour
             movementController.stunned = true;
             animator.Play("Attack");
         }
-
-    
 
     }
 
@@ -99,6 +98,26 @@ public class Enemy : MonoBehaviour
     {
         spriteRenderer.enabled = false;
         light.enabled = false;
+    }
+
+    public void PlayPop()
+    {
+        audioController.PlayDeath();
+    }
+
+    public void PlayAppear()
+    {
+        audioController.PlayAppear();
+    }
+
+    public void PlaySpawn()
+    {
+       audioController.PlaySpawn();
+    }
+
+    public void PlayAttack()
+    {
+        audioController.PlayAttack();
     }
 
 }

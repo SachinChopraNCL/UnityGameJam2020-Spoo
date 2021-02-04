@@ -23,6 +23,10 @@ public class Lamp : MonoBehaviour
    public GameObject fireImage;
    public Sprite fireImageSliderLarge;
    public Sprite fireImageSliderSmall;
+    public LampAudioController audioController;
+
+    bool playLowFire = true;
+    bool playHighFire = false;
    
    float val = 0.25f;
    public List<PhantomPlatform> phantomPlatforms = new List<PhantomPlatform>();
@@ -37,8 +41,16 @@ public class Lamp : MonoBehaviour
    }
    public void Update()
    {   
-       if(isCharging && !discharging)
+       if(playLowFire)
        {
+           audioController.PlayFireLow();
+       }
+       if(playHighFire)
+       {
+           audioController.PlayFireHigh();
+       }
+       if(isCharging && !discharging)
+       {       
          timer.SetActive(true);
          if(lampLight.pointLightOuterRadius < outerRadius)
          {
@@ -55,19 +67,34 @@ public class Lamp : MonoBehaviour
        {   
             if(discharging)
             {
-                globalLight.intensity -= 0.04f;
-                if(lampLight.pointLightOuterRadius <= 5)
+                playHighFire = true;
+                float ratio = ((float) outerRadius / rateMin);
+                if(globalLight.intensity > 2.5)
                 {
-                    globalLight.intensity += 0.035f;
-                    if(globalLight.intensity < 0.1)
+                    globalLight.intensity -= ratio * 10f;
+                }
+                else if(lampLight.pointLightOuterRadius < 6f)
+                {
+                    globalLight.intensity -= ratio * 0.2f;
+                    if(globalLight.intensity <= 0.1)
                     {
                         globalLight.intensity = 0.1f;
                     }
                 }
-                else if(globalLight.intensity < 1.5f)
+                else
                 {
-                    globalLight.intensity = 1.5f;
+                    globalLight.intensity -= ratio * 0.15f;
+                    if(globalLight.intensity <= 1)
+                    {
+                        globalLight.intensity = 1f;
+                    }
                 }
+            
+            } 
+            else
+            {
+                playHighFire = false;
+                playLowFire = true;
             }
             lampLight.pointLightOuterRadius -= (float) outerRadius / rateMin;
             lampLight.pointLightInnerRadius -= (float) innerRadius / rateMin;
@@ -139,13 +166,15 @@ public class Lamp : MonoBehaviour
 
        if(lampLight.pointLightOuterRadius >= outerRadius && canSet)
        {
-           globalLight.intensity = 10f;
+           globalLight.intensity = 8f;
            globalLight.color = new Vector4(0.75f, 0.98f, 0.75f, 1f);
            fireAnimator.Play("bigFire");
            levelDirector.isPlatforming = true;
            levelDirector.instantiate = true;
            canSet = false;
            discharging = true;
+           playLowFire = false;
+           audioController.PlayFireTransition();
         }
    }
 

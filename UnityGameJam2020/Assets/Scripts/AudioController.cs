@@ -6,6 +6,8 @@ public class AudioController : MonoBehaviour
 {
     public AudioClip jumpAudio;
     public AudioClip walkAudio;
+    public AudioClip crank1;
+    public AudioClip crank2;
 
     public void PlayJump()
     {
@@ -21,6 +23,19 @@ public class AudioController : MonoBehaviour
             gameObject.GetComponent<AudioSource>().Play();
         }
    
+    }
+
+    public void PlayCrank1()
+    {
+        gameObject.GetComponent<AudioSource>().clip = crank1;
+        gameObject.GetComponent<AudioSource>().Play();
+    }
+
+    
+    public void PlayCrank2()
+    {
+        gameObject.GetComponent<AudioSource>().clip = crank2;
+        gameObject.GetComponent<AudioSource>().Play();
     }
 
     public void Stop()

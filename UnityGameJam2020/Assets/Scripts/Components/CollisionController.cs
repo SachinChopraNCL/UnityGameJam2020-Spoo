@@ -9,14 +9,12 @@ public class CollisionController : MonoBehaviour
 {
     public Rigidbody2D rb; 
     public LayerMask mirrorLayer;
-    public LayerMask enemyLayer;
+    public LayerMask backLayer;
     public float rayCastDistance;
     GameObject ghostObject = null;
-    public Torch torch;
-
+    public Torch torch; 
     public bool flip = false;
     public Transform lightPoint;
-    public LayerMask lampLayer;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,14 +47,17 @@ public class CollisionController : MonoBehaviour
 
     void HitMirror(Vector2 lightPos, Vector2 dir, Vector2 normDir)
     {   
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mirrorLayer);
+        LayerMask mask = mirrorLayer | backLayer;
+        RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mask);
         if (mirrorCollision.collider != null && mirrorCollision.distance < rayCastDistance) 
         {
-            Collider2D currentMirrorCollider = mirrorCollision.collider;
-            Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
-            float ratio = (float)dir.y / (float)dir.x;
-            currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
-
+            if(mirrorCollision.collider.gameObject.layer == 11) 
+            {
+                Collider2D currentMirrorCollider = mirrorCollision.collider;
+                Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
+                float ratio = (float)dir.y / (float)dir.x;
+                currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
+            } 
         }
     }
 

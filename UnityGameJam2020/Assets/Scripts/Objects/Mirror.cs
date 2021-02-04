@@ -8,6 +8,7 @@ public class Mirror : MonoBehaviour
     public Transform instantiationPoint;
     public float rayCastDistance;
     public LayerMask mirrorLayer;
+    public LayerMask backLayer;
     public LayerMask lampLayer;
     bool rotateReflection = false;
     bool stillLooking = false;
@@ -73,13 +74,17 @@ public class Mirror : MonoBehaviour
         Vector2 mirrorPosition = collisionPoint;
         Vector2 direction = newDirection.normalized;
         Vector2 displacement = mirrorRayCast.normal;
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition + displacement, direction, rayCastDistance, mirrorLayer);
+        LayerMask mask = mirrorLayer | backLayer;
+        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition + displacement, direction, rayCastDistance, mask);
         if(mirrorCollision.collider != null)
         {
-          Collider2D currentMirrorCollider = mirrorCollision.collider;
-          Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
-          float ratio = (float)newDirection.y / (float)newDirection.x;
-          currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+          if(mirrorCollision.collider.gameObject.layer == 11)
+          {
+            Collider2D currentMirrorCollider = mirrorCollision.collider;
+            Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
+            float ratio = (float)newDirection.y / (float)newDirection.x;
+            currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+          }
         }
        
     }
