@@ -20,6 +20,7 @@ public class MovementController : MonoBehaviour
     public Torch torch;
     public GameObject Legs;
     public GameObject particle;
+    public Transform groundPoint;
     public Sprite legs_right;
     public Sprite legs_left;
     public Sprite sandeep;
@@ -29,12 +30,15 @@ public class MovementController : MonoBehaviour
     public Transform LightPoint;
     public bool isJumping = false;
     public  bool stunned = false;
+    public  float maxSpeed;
 
     public bool createParticle = false;
 
     float particleTimer = 0;
     private bool right = true;
     private bool isFacingRight;
+
+    private bool isOnStairs = false;
 
     void Awake()
     {
@@ -113,7 +117,7 @@ public class MovementController : MonoBehaviour
         {
             particleTimer += Time.deltaTime;
             if(particleTimer > 0.1f && timeElapsed <= 0.75f){
-                Instantiate(particle, transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-1.8f, 0.5f), 0), Quaternion.identity);
+                Instantiate(particle, groundPoint.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-1.8f, 0.5f), 0), Quaternion.identity);
                 particleTimer = 0;
             }
             torch.stunned = true;
@@ -158,9 +162,22 @@ public class MovementController : MonoBehaviour
                 Legs.GetComponent<SpriteRenderer>().sprite = legs_left;
             }
 
-            transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
-            if(isJumping)
+            if(isOnStairs)
             {
+                transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime*2);        
+            }
+            else
+            {
+                transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
+            }
+
+            if(isJumping )
+            {
+                if(isOnStairs)
+                {
+                    transform.Translate(new Vector2(0,0.5f));    
+                } 
+                
                 audioController.PlayJump();
                 rb.AddForce(new Vector2(0f, jumpForce));
                 isJumping = false;
@@ -170,9 +187,9 @@ public class MovementController : MonoBehaviour
     
     bool IsGrounded()
     {
-        Vector2 position = transform.position;
+        Vector2 position = groundPoint.position;
         Vector2 direction = Vector2.down;
-        float distance = 1.6f; 
+        float distance = 1.0f; 
         
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         if(hit.collider != null)
@@ -213,6 +230,48 @@ public class MovementController : MonoBehaviour
         collisionController.flip = true;
         if(Input.GetAxisRaw("Horizontal") == 0){
             legsAnimator.SetInteger("direction",3);
+        }
+    }
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Platform")
+        {
+           Platform currentPlatform = collision.gameObject.GetComponentInParent<Platform>();
+           currentPlatform.isActive = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Platform")
+        {
+           Platform currentPlatform = collision.gameObject.GetComponentInParent<Platform>();
+           currentPlatform.isActive = false;
+        }
+    }
+    
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Stair")
+        {
+            if(Input.GetAxisRaw("Horizontal") == 0)
+            {  
+               rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            } 
+            else
+            {
+               rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+            rb.gravityScale = 0;
+            isOnStairs = true;
+        }
+    }
+
+     void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Stair")
+        {
+            rb.gravityScale = 2.5f;
+            isOnStairs = false;
         }
     }
 }

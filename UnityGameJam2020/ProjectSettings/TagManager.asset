@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PhantomPlatform
   - Door
+  - Stair
+  - Platform
   layers:
   - Default
   - TransparentFX
