@@ -570,7 +570,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   speed: 5
-  jumpForce: 600
+  jumpForce: 650
   timeElapsed: 0
   rb: {fileID: 0}
   animator: {fileID: 0}
