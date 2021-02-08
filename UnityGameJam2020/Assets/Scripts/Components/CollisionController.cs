@@ -15,9 +15,12 @@ public class CollisionController : MonoBehaviour
     public Torch torch; 
     public bool flip = false;
     public Transform lightPoint;
+
+    public MirrorLevelHandler mirrorLevelHandler = null;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        mirrorLevelHandler = (MirrorLevelHandler)FindObjectOfType(typeof(MirrorLevelHandler));
     }
 
     void Update()
@@ -27,10 +30,8 @@ public class CollisionController : MonoBehaviour
             ghostObject.GetComponent<AIPath>().maxSpeed = 3.00f;
         }
 
-       if(torch.isTorchOn)
-        {
-            Raycaster();
-        }
+        Raycaster();
+        
     }
 
     void Raycaster()
@@ -49,17 +50,28 @@ public class CollisionController : MonoBehaviour
     {   
         LayerMask mask = mirrorLayer | backLayer;
         RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mask);
-        if (mirrorCollision.collider != null && mirrorCollision.distance < rayCastDistance) 
+        if (mirrorCollision.collider != null) 
         {
             if(mirrorCollision.collider.gameObject.layer == 11) 
             {
                 Collider2D currentMirrorCollider = mirrorCollision.collider;
                 Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
+                Vector3 midPoint = currentMirrorCollider.gameObject.transform.GetChild(0).gameObject.transform.position;
                 float ratio = (float)dir.y / (float)dir.x;
-                currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
+                float distance = Mathf.Abs(Vector2.Distance(midPoint, mirrorCollision.point));
+                if(distance < 1f)
+                {
+                    currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
+                }
             } 
+            
+        }
+        else
+        {
+           if(mirrorLevelHandler != null)
+           {
+              mirrorLevelHandler.DisableAll();
+           }
         }
     }
-
-    
 }

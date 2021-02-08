@@ -11,7 +11,6 @@ public class Mirror : MonoBehaviour
     public LayerMask backLayer;
     public LayerMask lampLayer;
     bool rotateReflection = false;
-    bool stillLooking = false;
     //Radians!
     float lastAngle = -1000;
     Vector3 collisionPoint;
@@ -19,45 +18,49 @@ public class Mirror : MonoBehaviour
     Collider2D mirrorCollider;
     Vector2 origin;
     Vector3 newDirection;
+
+    bool isOn = false;
     
     public void CheckForInstantiation(float angle, RaycastHit2D _mirrorRayCast, Vector2 _origin)
     {
         rotateReflection = (lastAngle != angle) ? true : false;
         lastAngle = angle; 
-        stillLooking = true;
         mirrorRayCast = _mirrorRayCast;
         mirrorCollider = mirrorRayCast.collider;
         collisionPoint = mirrorRayCast.point;
         origin = _origin;
+        currentReflection.SetActive(true);
+        if(rotateReflection)
+        {
+            RotateReflection();
+        }
+        
+        BounceLight();
+        isOn = true;
     }
+
+    public void SwitchOff()
+    {
+        currentReflection.SetActive(false);
+    }
+
 
     void Awake()
     {
         currentReflection.SetActive(true);
     }
+    
     void Update()
     {
-        if(rotateReflection)
+        if(!isOn)
         {
-            RotateReflection();
+          SwitchOff();
         }
-
-        if(stillLooking)
-        {
-            BounceLight();
-        }
-        else if(!stillLooking)
-        {
-            currentReflection.SetActive(false);
-            lastAngle = -1000;
-        }
-        
-        stillLooking = false;
+        isOn = false;
     }
 
     void RotateReflection()
     {
-        currentReflection.SetActive(true);
         currentReflection.transform.position = collisionPoint;
         
         newDirection = Vector3.zero;
@@ -65,28 +68,30 @@ public class Mirror : MonoBehaviour
         
         newDirection = Vector3.Reflect(playerDirection, mirrorRayCast.normal);
         currentReflection.transform.rotation = Quaternion.FromToRotation(Vector2.right, newDirection);
-
     }
 
     void BounceLight()
     {
-        currentReflection.SetActive(true);
         Vector2 mirrorPosition = collisionPoint;
         Vector2 direction = newDirection.normalized;
-        Vector2 displacement = mirrorRayCast.normal;
         LayerMask mask = mirrorLayer | backLayer;
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition + displacement, direction, rayCastDistance, mask);
+        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance * 1.5f, mask);
+        Debug.DrawRay(mirrorPosition, direction);
         if(mirrorCollision.collider != null)
         {
           if(mirrorCollision.collider.gameObject.layer == 11)
           {
             Collider2D currentMirrorCollider = mirrorCollision.collider;
             Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
+            Vector3 midPoint = currentMirrorCollider.gameObject.transform.GetChild(0).gameObject.transform.position;
             float ratio = (float)newDirection.y / (float)newDirection.x;
-            currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+            float distance = Mathf.Abs(Vector2.Distance(midPoint, mirrorCollision.point));
+            if(distance < 1f)
+            {
+               currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+            }
           }
         }
-       
     }
 
 }
