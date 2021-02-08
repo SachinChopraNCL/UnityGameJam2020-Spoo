@@ -10,6 +10,7 @@ public class CollisionController : MonoBehaviour
     public Rigidbody2D rb; 
     public LayerMask mirrorLayer;
     public LayerMask backLayer;
+    public LayerMask groundLayer;
     public float rayCastDistance;
     GameObject ghostObject = null;
     public Torch torch; 
@@ -48,7 +49,7 @@ public class CollisionController : MonoBehaviour
 
     void HitMirror(Vector2 lightPos, Vector2 dir, Vector2 normDir)
     {   
-        LayerMask mask = mirrorLayer | backLayer;
+        LayerMask mask = mirrorLayer | backLayer | groundLayer;
         RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mask);
         if (mirrorCollision.collider != null) 
         {

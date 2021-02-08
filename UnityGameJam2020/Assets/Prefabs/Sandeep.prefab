@@ -616,10 +616,14 @@ MonoBehaviour:
   backLayer:
     serializedVersion: 2
     m_Bits: 65536
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   rayCastDistance: 7
   torch: {fileID: 4011279081334479159}
   flip: 0
   lightPoint: {fileID: 4011279080220217054}
+  mirrorLevelHandler: {fileID: 0}
 --- !u!70 &8646162639181386192
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

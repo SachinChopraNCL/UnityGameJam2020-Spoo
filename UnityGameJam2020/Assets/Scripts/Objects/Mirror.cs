@@ -10,6 +10,8 @@ public class Mirror : MonoBehaviour
     public LayerMask mirrorLayer;
     public LayerMask backLayer;
     public LayerMask lampLayer;
+
+    public LayerMask groundLayer;
     bool rotateReflection = false;
     //Radians!
     float lastAngle = -1000;
@@ -74,8 +76,8 @@ public class Mirror : MonoBehaviour
     {
         Vector2 mirrorPosition = collisionPoint;
         Vector2 direction = newDirection.normalized;
-        LayerMask mask = mirrorLayer | backLayer;
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance * 1.5f, mask);
+        LayerMask mask = mirrorLayer | backLayer | groundLayer;
+        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance * 1.2f, mask);
         Debug.DrawRay(mirrorPosition, direction);
         if(mirrorCollision.collider != null)
         {

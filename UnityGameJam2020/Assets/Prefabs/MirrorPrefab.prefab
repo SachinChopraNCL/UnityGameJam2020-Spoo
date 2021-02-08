@@ -167,7 +167,7 @@ MonoBehaviour:
   - {x: -0.14576712, y: -0.028135536, z: 0.000000008547115}
   m_ShapePathHash: 1090752743
   m_Mesh: {fileID: 0}
-  m_InstanceId: 82990
+  m_InstanceId: 28042
 --- !u!114 &6116937593568075386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +192,9 @@ MonoBehaviour:
   lampLayer:
     serializedVersion: 2
     m_Bits: 4096
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!61 &6116937593568075361
 BoxCollider2D:
   m_ObjectHideFlags: 0
