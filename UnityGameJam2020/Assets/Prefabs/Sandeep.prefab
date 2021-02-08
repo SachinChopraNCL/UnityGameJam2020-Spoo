@@ -619,7 +619,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  rayCastDistance: 7
+  rayCastDistance: 1
   torch: {fileID: 4011279081334479159}
   flip: 0
   lightPoint: {fileID: 4011279080220217054}

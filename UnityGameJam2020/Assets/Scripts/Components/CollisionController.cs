@@ -51,6 +51,7 @@ public class CollisionController : MonoBehaviour
     {   
         LayerMask mask = mirrorLayer | backLayer | groundLayer;
         RaycastHit2D mirrorCollision = Physics2D.Raycast(lightPos, normDir, rayCastDistance, mask);
+        Debug.Log(mirrorCollision.collider.gameObject);
         if (mirrorCollision.collider != null) 
         {
             if(mirrorCollision.collider.gameObject.layer == 11) 
@@ -62,7 +63,7 @@ public class CollisionController : MonoBehaviour
                 float distance = Mathf.Abs(Vector2.Distance(midPoint, mirrorCollision.point));
                 if(distance < 1f)
                 {
-                    currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
+                  currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, lightPos);
                 }
             } 
             

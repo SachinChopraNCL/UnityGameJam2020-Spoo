@@ -31,12 +31,12 @@ public class Mirror : MonoBehaviour
         collisionPoint = mirrorRayCast.point;
         origin = _origin;
         currentReflection.SetActive(true);
+        BounceLight();
         if(rotateReflection)
         {
             RotateReflection();
         }
         
-        BounceLight();
         isOn = true;
     }
 
@@ -53,11 +53,18 @@ public class Mirror : MonoBehaviour
     
     void Update()
     {
+        if(isOn)
+        {
+            BounceLight();
+            RotateReflection();
+        }
+        
         if(!isOn)
         {
           SwitchOff();
         }
         isOn = false;
+    
     }
 
     void RotateReflection()
@@ -65,9 +72,9 @@ public class Mirror : MonoBehaviour
         currentReflection.transform.position = collisionPoint;
         
         newDirection = Vector3.zero;
-        Vector3 playerDirection = mirrorRayCast.point - origin;
+        Vector3 objDirection = mirrorRayCast.point - origin;
         
-        newDirection = Vector3.Reflect(playerDirection, mirrorRayCast.normal);
+        newDirection = Vector3.Reflect(objDirection, mirrorRayCast.normal);
         currentReflection.transform.rotation = Quaternion.FromToRotation(Vector2.right, newDirection);
     }
 
@@ -86,10 +93,11 @@ public class Mirror : MonoBehaviour
             Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
             Vector3 midPoint = currentMirrorCollider.gameObject.transform.GetChild(0).gameObject.transform.position;
             float ratio = (float)newDirection.y / (float)newDirection.x;
+            
             float distance = Mathf.Abs(Vector2.Distance(midPoint, mirrorCollision.point));
             if(distance < 1f)
             {
-               currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+              currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
             }
           }
 
