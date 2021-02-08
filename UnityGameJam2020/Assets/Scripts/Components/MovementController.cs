@@ -161,35 +161,63 @@ public class MovementController : MonoBehaviour
             if(Input.GetAxisRaw("Horizontal") < 0){
                 Legs.GetComponent<SpriteRenderer>().sprite = legs_left;
             }
-
-            if(isOnStairs)
-            {
-                transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime*2);        
-            }
-            else
+            
+            if(!CheckStairs())
             {
                 transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
             }
 
+
             if(isJumping )
             {
-                if(isOnStairs)
-                {
-                    transform.Translate(new Vector2(0,0.5f));    
-                } 
-                
                 audioController.PlayJump();
                 rb.AddForce(new Vector2(0f, jumpForce));
                 isJumping = false;
             }
-        }
+        } 
     }
     
+    bool  CheckStairs()
+    {
+       RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.95f, groundLayer);
+       if(hit.collider != null)
+       {
+          
+           double dirVal = Input.GetAxisRaw("Horizontal");
+           if(hit.collider.gameObject.tag == "StairRight")
+           {
+              rb.velocity = new Vector2(0,0);
+              rb.gravityScale = 0;
+              dirVal *= 0.05f;
+              transform.Translate(new Vector2(2f * (float)dirVal, 2f * (float)dirVal));
+              return true;
+           }
+           else if(hit.collider.gameObject.tag == "StairLeft")
+           {
+              rb.velocity = new Vector2(0,0);
+              rb.gravityScale = 0;
+              dirVal *= 0.05f;
+              transform.Translate(new Vector2(2f * (float)dirVal, -2f * (float)dirVal));
+              return true;
+           }
+           else
+           {
+              rb.gravityScale = 2.5f;
+           }
+       } 
+       else
+       {
+            rb.gravityScale = 2.5f;     
+       }
+
+       return false;
+    
+    }
     bool IsGrounded()
     {
         Vector2 position = groundPoint.position;
         Vector2 direction = Vector2.down;
-        float distance = 1.0f; 
+        float distance = 0.5f; 
         
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         if(hit.collider != null)
@@ -249,29 +277,6 @@ public class MovementController : MonoBehaviour
         }
     }
     
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Stair")
-        {
-            if(Input.GetAxisRaw("Horizontal") == 0)
-            {  
-               rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-            } 
-            else
-            {
-               rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            }
-            rb.gravityScale = 0;
-            isOnStairs = true;
-        }
-    }
 
-     void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Stair")
-        {
-            rb.gravityScale = 2.5f;
-            isOnStairs = false;
-        }
-    }
+
 }
