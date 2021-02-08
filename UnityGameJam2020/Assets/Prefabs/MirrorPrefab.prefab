@@ -167,7 +167,7 @@ MonoBehaviour:
   - {x: -0.14576712, y: -0.028135536, z: 0.000000008547115}
   m_ShapePathHash: 1090752743
   m_Mesh: {fileID: 0}
-  m_InstanceId: -114372
+  m_InstanceId: 82990
 --- !u!114 &6116937593568075386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,8 +360,8 @@ MonoBehaviour:
   m_LightType: 1
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.809
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.7647059, g: 0.7607843, b: 0.6901961, a: 1}
+  m_Intensity: 0.6
   m_LightVolumeOpacity: 0.188
   m_ApplyToSortingLayers: 0000000091b8e73de1ce1b2a7b3732bfb796f8001173f444ebbb7aba
   m_LightCookieSprite: {fileID: 0}
