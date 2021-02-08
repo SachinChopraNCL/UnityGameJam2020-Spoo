@@ -10,7 +10,6 @@ public class Mirror : MonoBehaviour
     public LayerMask mirrorLayer;
     public LayerMask backLayer;
     public LayerMask lampLayer;
-
     public LayerMask groundLayer;
     bool rotateReflection = false;
     //Radians!
@@ -76,7 +75,7 @@ public class Mirror : MonoBehaviour
     {
         Vector2 mirrorPosition = collisionPoint;
         Vector2 direction = newDirection.normalized;
-        LayerMask mask = mirrorLayer | backLayer | groundLayer;
+        LayerMask mask = mirrorLayer | backLayer | groundLayer | lampLayer;
         RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance * 1.2f, mask);
         Debug.DrawRay(mirrorPosition, direction);
         if(mirrorCollision.collider != null)
@@ -93,6 +92,16 @@ public class Mirror : MonoBehaviour
                currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
             }
           }
+
+          if(mirrorCollision.collider.gameObject.layer == 14)
+          {
+             currentReflection.GetComponent<PolygonCollider2D>().enabled = true;
+          }
+          else
+          {
+             currentReflection.GetComponent<PolygonCollider2D>().enabled = false;
+          }
+
         }
     }
 
