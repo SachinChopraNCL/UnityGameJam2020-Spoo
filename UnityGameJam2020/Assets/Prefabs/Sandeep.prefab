@@ -160,7 +160,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   animator: {fileID: 0}
-  rayCastDistance: 10
+  rayCastDistance: 7
 --- !u!212 &4011279081334479112
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -619,7 +619,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  rayCastDistance: 1
+  rayCastDistance: 7.5
   torch: {fileID: 4011279081334479159}
   flip: 0
   lightPoint: {fileID: 4011279080220217054}
