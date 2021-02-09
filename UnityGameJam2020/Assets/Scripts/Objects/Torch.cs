@@ -77,7 +77,7 @@ public class Torch : MonoBehaviour
         
         Debug.DrawRay(torchLight.transform.position, normDir);
         
-        if(rayCol.collider != null && rayCol.distance < rayCastDistance && (rayCol.collider.gameObject.layer == 13 || rayCol.collider.gameObject.layer == 14))
+        if(rayCol.collider != null  && (rayCol.collider.gameObject.layer == 13 || rayCol.collider.gameObject.layer == 14))
         {
             if(col.gameObject.layer == 13)
             {

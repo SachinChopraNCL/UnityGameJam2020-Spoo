@@ -160,7 +160,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   animator: {fileID: 0}
-  rayCastDistance: 10
+  rayCastDistance: 7
 --- !u!212 &4011279081334479112
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -616,10 +616,14 @@ MonoBehaviour:
   backLayer:
     serializedVersion: 2
     m_Bits: 65536
-  rayCastDistance: 7
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  rayCastDistance: 7.5
   torch: {fileID: 4011279081334479159}
   flip: 0
   lightPoint: {fileID: 4011279080220217054}
+  mirrorLevelHandler: {fileID: 0}
 --- !u!70 &8646162639181386192
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

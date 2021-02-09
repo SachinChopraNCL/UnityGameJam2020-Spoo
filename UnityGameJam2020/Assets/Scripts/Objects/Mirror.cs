@@ -10,8 +10,8 @@ public class Mirror : MonoBehaviour
     public LayerMask mirrorLayer;
     public LayerMask backLayer;
     public LayerMask lampLayer;
+    public LayerMask groundLayer;
     bool rotateReflection = false;
-    bool stillLooking = false;
     //Radians!
     float lastAngle = -1000;
     Vector3 collisionPoint;
@@ -19,74 +19,98 @@ public class Mirror : MonoBehaviour
     Collider2D mirrorCollider;
     Vector2 origin;
     Vector3 newDirection;
+
+    bool isOn = false;
     
     public void CheckForInstantiation(float angle, RaycastHit2D _mirrorRayCast, Vector2 _origin)
     {
         rotateReflection = (lastAngle != angle) ? true : false;
         lastAngle = angle; 
-        stillLooking = true;
         mirrorRayCast = _mirrorRayCast;
         mirrorCollider = mirrorRayCast.collider;
         collisionPoint = mirrorRayCast.point;
         origin = _origin;
+        currentReflection.SetActive(true);
+        BounceLight();
+        if(rotateReflection)
+        {
+            RotateReflection();
+        }
+        
+        isOn = true;
     }
+
+    public void SwitchOff()
+    {
+        currentReflection.SetActive(false);
+    }
+
 
     void Awake()
     {
         currentReflection.SetActive(true);
     }
+    
     void Update()
     {
-        if(rotateReflection)
+        if(isOn)
         {
+            BounceLight();
             RotateReflection();
         }
 
-        if(stillLooking)
+        if(!isOn)
         {
-            BounceLight();
+          SwitchOff();
         }
-        else if(!stillLooking)
-        {
-            currentReflection.SetActive(false);
-            lastAngle = -1000;
-        }
-        
-        stillLooking = false;
+        isOn = false;
+    
     }
 
     void RotateReflection()
     {
-        currentReflection.SetActive(true);
         currentReflection.transform.position = collisionPoint;
         
         newDirection = Vector3.zero;
-        Vector3 playerDirection = mirrorRayCast.point - origin;
+        Vector3 objDirection = mirrorRayCast.point - origin;
         
-        newDirection = Vector3.Reflect(playerDirection, mirrorRayCast.normal);
+        newDirection = Vector3.Reflect(objDirection, mirrorRayCast.normal);
         currentReflection.transform.rotation = Quaternion.FromToRotation(Vector2.right, newDirection);
-
     }
 
     void BounceLight()
     {
-        currentReflection.SetActive(true);
         Vector2 mirrorPosition = collisionPoint;
         Vector2 direction = newDirection.normalized;
-        Vector2 displacement = mirrorRayCast.normal;
-        LayerMask mask = mirrorLayer | backLayer;
-        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition + displacement, direction, rayCastDistance, mask);
+        LayerMask mask = mirrorLayer | backLayer | groundLayer | lampLayer;
+        RaycastHit2D mirrorCollision = Physics2D.Raycast(mirrorPosition, direction, rayCastDistance * 1.2f, mask);
+        Debug.DrawRay(mirrorPosition, direction);
         if(mirrorCollision.collider != null)
         {
           if(mirrorCollision.collider.gameObject.layer == 11)
           {
             Collider2D currentMirrorCollider = mirrorCollision.collider;
             Mirror currentMirror = currentMirrorCollider.gameObject.GetComponent<Mirror>();
+            Vector3 midPoint = currentMirrorCollider.gameObject.transform.GetChild(0).gameObject.transform.position;
             float ratio = (float)newDirection.y / (float)newDirection.x;
-            currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+            
+            float distance = Mathf.Abs(Vector2.Distance(midPoint, mirrorCollision.point));
+            if(distance < 1f)
+            {
+              currentMirror.CheckForInstantiation(Mathf.Atan(ratio), mirrorCollision, mirrorPosition);
+            }
           }
+
+          if(mirrorCollision.collider.gameObject.layer == 14)
+          {
+             currentReflection.GetComponent<PolygonCollider2D>().enabled = true;
+          }
+          else
+          {
+             currentReflection.GetComponent<PolygonCollider2D>().enabled = false;
+          }
+
         }
-       
     }
 
 }

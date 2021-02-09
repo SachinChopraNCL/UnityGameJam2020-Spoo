@@ -117,7 +117,7 @@ public class MovementController : MonoBehaviour
         {
             particleTimer += Time.deltaTime;
             if(particleTimer > 0.1f && timeElapsed <= 0.75f){
-                Instantiate(particle, groundPoint.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-1.8f, 0.5f), 0), Quaternion.identity);
+                Instantiate(particle,this.transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-1.8f, 0.5f), 0), Quaternion.identity);
                 particleTimer = 0;
             }
             torch.stunned = true;
