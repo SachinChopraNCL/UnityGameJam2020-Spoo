@@ -19,9 +19,13 @@ public class LevelAudioController : MonoBehaviour
              Destroy(this.gameObject);
          }
       DontDestroyOnLoad(transform.gameObject);
-      levelAudio = GetComponent<AudioSource>(); 
+      levelAudio = GetComponent<AudioSource>();
+      levelAudio.volume = 0;
       levelAudio.clip = ambient;
       levelAudio.Play();
+
+      StopAllCoroutines();
+      StartCoroutine(StartFade(levelAudio, 8f, 0.15f));
     }
 
     // Update is called once per frame
@@ -40,6 +44,7 @@ public class LevelAudioController : MonoBehaviour
     {
       fade = StartCoroutine(StartFade(levelAudio, 1.5f, 0));
     }
+
     public void PlayAmbient()
     {
       if(gameObject.GetComponent<AudioSource>().clip == platforming)
