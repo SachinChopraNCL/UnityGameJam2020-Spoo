@@ -12,7 +12,6 @@ public class LevelAudioController : MonoBehaviour
     void Start()
     {
        GameObject[] objs = GameObject.FindGameObjectsWithTag("AudioSource");
-         Debug.Log(objs.Length);
          if (objs.Length > 1)
          {
              Destroy(this.gameObject);

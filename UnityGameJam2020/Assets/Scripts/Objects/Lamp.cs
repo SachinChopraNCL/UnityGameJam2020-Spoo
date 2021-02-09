@@ -41,9 +41,11 @@ public class Lamp : MonoBehaviour
        timer.GetComponent<Slider>().maxValue = outerRadius;
        fireImage.GetComponent<Image>().sprite = fireImageSliderSmall;
        timer.SetActive(false); 
+       Debug.LogError(rateMax);
    }
    public void Update()
    {   
+       Debug.LogError(Time.deltaTime);
        if(playLowFire)
        {
            audioController.PlayFireLow();
@@ -57,11 +59,11 @@ public class Lamp : MonoBehaviour
          timer.SetActive(true);
          if(lampLight.pointLightOuterRadius < outerRadius)
          {
-            lampLight.pointLightOuterRadius += (float) outerRadius /  rateMax;
-            lampLight.pointLightInnerRadius += (float) innerRadius/  rateMax;
-            float xScale = fireRenderer.transform.localScale.x + ((float)1f / rateMax);
-            float yScale = fireRenderer.transform.localScale.y + ((float)1f / rateMax);
-            float yPos = fireRenderer.transform.localPosition.y + ((float)0.2f / rateMax);
+            lampLight.pointLightOuterRadius += (float) (outerRadius /  rateMax) * Time.deltaTime;
+            lampLight.pointLightInnerRadius += (float) (innerRadius/  rateMax) * Time.deltaTime;
+            float xScale = fireRenderer.transform.localScale.x + ((float)1f / rateMax) * Time.deltaTime;
+            float yScale = fireRenderer.transform.localScale.y + ((float)1f / rateMax) * Time.deltaTime;
+            float yPos = fireRenderer.transform.localPosition.y + ((float)0.2f / rateMax) *  Time.deltaTime;
             fireRenderer.transform.localScale = new Vector3(xScale, yScale, 1);
             fireRenderer.transform.localPosition = new Vector3(0, yPos, 0);
          }
@@ -71,7 +73,7 @@ public class Lamp : MonoBehaviour
             if(discharging)
             {
                 playHighFire = true;
-                float ratio = ((float) outerRadius / rateMin);
+                float ratio = ((float) (outerRadius / rateMin)) * Time.deltaTime;
                 if(globalLight.intensity > 2.5)
                 {
                     globalLight.intensity -= ratio * 10f;
@@ -99,11 +101,11 @@ public class Lamp : MonoBehaviour
                 playHighFire = false;
                 playLowFire = true;
             }
-            lampLight.pointLightOuterRadius -= (float) outerRadius / rateMin;
-            lampLight.pointLightInnerRadius -= (float) innerRadius / rateMin;
-            float xScale = fireRenderer.transform.localScale.x - ((float)1.5f / rateMin);
-            float yScale = fireRenderer.transform.localScale.y - ((float)1.5f / rateMin);
-            float yPos = fireRenderer.transform.localPosition.y - ((float)0.3f / rateMin);
+            lampLight.pointLightOuterRadius -= (float) (outerRadius / rateMin) * Time.deltaTime;
+            lampLight.pointLightInnerRadius -= (float) (innerRadius / rateMin) * Time.deltaTime;
+            float xScale = fireRenderer.transform.localScale.x - ((float)1.5f / rateMin) * Time.deltaTime;
+            float yScale = fireRenderer.transform.localScale.y - ((float)1.5f / rateMin) * Time.deltaTime;
+            float yPos = fireRenderer.transform.localPosition.y - ((float)0.3f / rateMin) * Time.deltaTime;
             fireRenderer.transform.localScale = new Vector3(xScale, yScale, 1);
             fireRenderer.transform.localPosition = new Vector3(0, yPos, 0);
             if(lampLight.pointLightOuterRadius < 1)
