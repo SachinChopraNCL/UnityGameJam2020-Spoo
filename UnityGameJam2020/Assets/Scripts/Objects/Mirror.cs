@@ -58,7 +58,7 @@ public class Mirror : MonoBehaviour
             BounceLight();
             RotateReflection();
         }
-        
+
         if(!isOn)
         {
           SwitchOff();
