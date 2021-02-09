@@ -19,7 +19,7 @@ public class DoorScript : MonoBehaviour
                     case "Level_3": SceneManager.LoadScene("Level_4"); break;
                     case "Level_4": SceneManager.LoadScene("Level_5"); break;
                     case "Level_5": SceneManager.LoadScene("Level_6"); break;
-                    case "Level_6": SceneManager.LoadScene("Credits"); break;
+                    case "Level_6": SceneManager.LoadScene("Credits");Destroy(GameObject.FindGameObjectWithTag("AudioSource"));break;
                 }
             }
         }
