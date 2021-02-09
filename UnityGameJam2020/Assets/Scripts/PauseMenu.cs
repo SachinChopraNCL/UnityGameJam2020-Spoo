@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1.0f;
         string sceneName = "Mainmenu";
         SceneManager.LoadScene(sceneName);
+        Destroy(GameObject.FindGameObjectWithTag("AudioSource"));
     }
 
     public void Exit()
