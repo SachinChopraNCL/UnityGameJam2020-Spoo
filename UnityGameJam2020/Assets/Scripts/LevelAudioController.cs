@@ -9,6 +9,8 @@ public class LevelAudioController : MonoBehaviour
     public AudioClip platforming;
     AudioSource levelAudio;
 
+    Coroutine fade;
+
     void Start()
     {
        GameObject[] objs = GameObject.FindGameObjectsWithTag("AudioSource");
@@ -29,10 +31,15 @@ public class LevelAudioController : MonoBehaviour
       {
        levelAudio = GetComponent<AudioSource>(); 
        levelAudio.clip = platforming;
+       levelAudio.volume = 0.15f;
        levelAudio.Play();
       }
     }
 
+    public void FadeOut()
+    {
+      fade = StartCoroutine(StartFade(levelAudio, 1.5f, 0));
+    }
     public void PlayAmbient()
     {
       if(gameObject.GetComponent<AudioSource>().clip == platforming)
@@ -40,6 +47,23 @@ public class LevelAudioController : MonoBehaviour
        levelAudio = GetComponent<AudioSource>(); 
        levelAudio.clip = ambient;
        levelAudio.Play();
+       StopAllCoroutines();
+       StartCoroutine(StartFade(levelAudio, 8f, 0.15f));
       }
+    }
+
+    public static IEnumerator StartFade(AudioSource audioSource, float duration, float targetVolume)
+    {
+        float currentTime = 0;
+        float start = audioSource.volume;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            Debug.Log(targetVolume);
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        yield break;
     }
 }

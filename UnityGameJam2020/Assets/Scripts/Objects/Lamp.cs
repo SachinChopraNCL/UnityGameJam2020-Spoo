@@ -45,7 +45,6 @@ public class Lamp : MonoBehaviour
    }
    public void Update()
    {   
-       Debug.LogError(Time.deltaTime);
        if(playLowFire)
        {
            audioController.PlayFireLow();
@@ -72,6 +71,10 @@ public class Lamp : MonoBehaviour
        {   
             if(discharging)
             {
+                if(lampLight.pointLightOuterRadius <= 6)
+                {
+                    levelAudioController.FadeOut();
+                }
                 playHighFire = true;
                 float ratio = ((float) (outerRadius / rateMin)) * Time.deltaTime;
                 if(globalLight.intensity > 2.5)
