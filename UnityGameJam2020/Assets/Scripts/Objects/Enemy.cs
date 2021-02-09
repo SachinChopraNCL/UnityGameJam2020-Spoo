@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        GetComponent<AIPath>().maxSpeed = 3;
+        GetComponent<AIPath>().maxSpeed = 4.5f;
         
         if(inStart)
         {
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         {
             animator.Play("Death");
         }
-        else if(Vector3.Distance(playerPosition.position, this.transform.position) < 0.35f)
+        else if(Vector3.Distance(playerPosition.position, this.transform.position) < 0.7f)
         {
             inStart = true;
             movementController.stunned = true;

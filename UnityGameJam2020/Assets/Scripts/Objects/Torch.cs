@@ -99,7 +99,7 @@ public class Torch : MonoBehaviour
             if(col.gameObject.layer == 13)
             {
                 GameObject ghostObject = col.gameObject;
-                ghostObject.GetComponent<AIPath>().maxSpeed = 3f;
+                ghostObject.GetComponent<AIPath>().maxSpeed = 4.5f;
             }
             if(col.gameObject.layer == 14)
             {

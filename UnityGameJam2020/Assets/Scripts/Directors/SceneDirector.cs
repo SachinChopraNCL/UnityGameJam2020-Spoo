@@ -7,6 +7,10 @@ public class SceneDirector: MonoBehaviour{
 
     public void LoadGame(string scene)
     {
+        if(scene == "Level_1")
+        {
+            Destroy(GameObject.FindGameObjectWithTag("AudioSource"));
+        }
         SceneManager.LoadScene(scene);
     }
 
