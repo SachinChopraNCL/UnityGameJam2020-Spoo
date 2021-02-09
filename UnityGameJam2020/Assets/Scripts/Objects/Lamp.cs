@@ -23,7 +23,9 @@ public class Lamp : MonoBehaviour
    public GameObject fireImage;
    public Sprite fireImageSliderLarge;
    public Sprite fireImageSliderSmall;
-    public LampAudioController audioController;
+   public LampAudioController audioController;
+
+   public LevelAudioController levelAudioController;
 
     bool playLowFire = true;
     bool playHighFire = false;
@@ -34,6 +36,7 @@ public class Lamp : MonoBehaviour
    void Awake()
    {
        globalLight = GameObject.Find("Global Light 2D").GetComponent<Light2D>();
+       levelAudioController = GameObject.Find("LevelAudio").GetComponent<LevelAudioController>();
        phantomPlatforms = FindObjectsOfType<PhantomPlatform>().ToList();
        timer.GetComponent<Slider>().maxValue = outerRadius;
        fireImage.GetComponent<Image>().sprite = fireImageSliderSmall;
@@ -162,6 +165,7 @@ public class Lamp : MonoBehaviour
            discharging = false;
            timer.SetActive(false);
            globalLight.color = new Vector4(1f, 1f, 1f, 1f);
+           levelAudioController.PlayAmbient();
        }
 
        if(lampLight.pointLightOuterRadius >= outerRadius && canSet)
@@ -175,6 +179,7 @@ public class Lamp : MonoBehaviour
            discharging = true;
            playLowFire = false;
            audioController.PlayFireTransition();
+           levelAudioController.PlayPlatforming();
         }
    }
 

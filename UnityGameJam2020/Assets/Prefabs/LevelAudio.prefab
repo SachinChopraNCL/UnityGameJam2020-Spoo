@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6446076298208980603}
   - component: {fileID: 6446076298208980602}
+  - component: {fileID: 754259479272538798}
   m_Layer: 0
   m_Name: LevelAudio
   m_TagString: Untagged
@@ -41,7 +42,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f9ff827b86481f140b9ec8dd28082e3e, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.15
   m_Pitch: 1
@@ -127,3 +128,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &754259479272538798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6446076298208980597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615a42be7b736c64692980a477add619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambient: {fileID: 8300000, guid: d38c17760dca50642aac61209fdf3f3d, type: 3}
+  platforming: {fileID: 8300000, guid: 8a4dc23ba8620bc4280130049bf3f947, type: 3}
