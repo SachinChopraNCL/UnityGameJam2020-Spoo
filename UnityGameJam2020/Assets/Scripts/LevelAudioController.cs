@@ -11,6 +11,10 @@ public class LevelAudioController : MonoBehaviour
 
     Coroutine fade;
 
+    void Update()
+    {
+      Debug.Log(levelAudio.clip);
+    }
     void Start()
     {
        GameObject[] objs = GameObject.FindGameObjectsWithTag("AudioSource");
@@ -20,20 +24,13 @@ public class LevelAudioController : MonoBehaviour
          }
       DontDestroyOnLoad(transform.gameObject);
       levelAudio = GetComponent<AudioSource>();
-      levelAudio.volume = 0;
-      levelAudio.clip = ambient;
-      levelAudio.Play();
-
-      StopAllCoroutines();
-      StartCoroutine(StartFade(levelAudio, 8f, 0.15f));
     }
 
     // Update is called once per frame
     public void PlayPlatforming()
     {
-      if(gameObject.GetComponent<AudioSource>().clip == ambient)
+      if(levelAudio.clip != platforming)
       {
-       levelAudio = GetComponent<AudioSource>(); 
        levelAudio.clip = platforming;
        levelAudio.volume = 0.15f;
        levelAudio.Play();
@@ -42,22 +39,22 @@ public class LevelAudioController : MonoBehaviour
 
     public void FadeOut(float delay)
     {
-      fade = StartCoroutine(StartFade(levelAudio, delay, 0));
+      fade = StartCoroutine(FadeOut(levelAudio, delay, 0));
     }
 
     public void PlayAmbient()
     {
-      if(gameObject.GetComponent<AudioSource>().clip == platforming)
+      if(levelAudio.clip != ambient)
       {
-       levelAudio = GetComponent<AudioSource>(); 
        levelAudio.clip = ambient;
        levelAudio.Play();
        StopAllCoroutines();
-       StartCoroutine(StartFade(levelAudio, 8f, 0.15f));
+       StartCoroutine(FadeIn(levelAudio, 0.15f));
       }
     }
+    
 
-    public static IEnumerator StartFade(AudioSource audioSource, float duration, float targetVolume)
+    public static IEnumerator FadeOut(AudioSource audioSource, float duration, float targetVolume)
     {
         float currentTime = 0;
         float start = audioSource.volume;
@@ -71,4 +68,13 @@ public class LevelAudioController : MonoBehaviour
         }
         yield break;
     }
+   
+   public static IEnumerator FadeIn(AudioSource audioSource, float targetVolume)
+   {
+      while(audioSource.volume <= targetVolume){
+        audioSource.volume += 0.0001f;
+        yield return null;
+      }
+      yield break;
+   }
 }

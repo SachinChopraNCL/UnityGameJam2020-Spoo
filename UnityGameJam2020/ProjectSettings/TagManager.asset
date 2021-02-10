@@ -11,6 +11,7 @@ TagManager:
   - StairRight
   - Stair
   - AudioSource
+  - DoorSound
   layers:
   - Default
   - TransparentFX

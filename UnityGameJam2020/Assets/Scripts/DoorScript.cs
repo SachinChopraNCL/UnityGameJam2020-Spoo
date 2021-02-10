@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class DoorScript : MonoBehaviour
 {
+
+    DoorSound doorSound;
+    void Awake()
+    {
+        doorSound = GameObject.Find("DoorSound").GetComponent<DoorSound>();
+
+    }
     void OnTriggerStay2D(Collider2D collision)
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -12,6 +19,7 @@ public class DoorScript : MonoBehaviour
         {
             if(Input.GetMouseButton(0))
             {
+                doorSound.PlayDoor();
                 switch (sceneName)
                 {
                     case "Level_1": SceneManager.LoadScene("Level_2"); break;
