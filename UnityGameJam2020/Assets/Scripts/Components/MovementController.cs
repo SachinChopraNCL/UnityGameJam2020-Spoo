@@ -34,6 +34,8 @@ public class MovementController : MonoBehaviour
 
     public bool createParticle = false;
 
+    private bool grounded = false;
+
     float particleTimer = 0;
     private bool right = true;
     private bool isFacingRight;
@@ -55,7 +57,7 @@ public class MovementController : MonoBehaviour
         if(!stunned){
             Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+            if (Input.GetKeyDown(KeyCode.Space) && grounded)
             {
                 isJumping = true;
             }
@@ -102,13 +104,13 @@ public class MovementController : MonoBehaviour
             }
         }
 
-        if(!IsGrounded() && right)
+        if(!grounded && right)
         {
             legsAnimator.SetInteger("direction", 6);
             animator.SetInteger("direction", 4);
         }
 
-        if(!IsGrounded() && !right)
+        if(!grounded && !right)
         {
             legsAnimator.SetInteger("direction", 7);
             animator.SetInteger("direction", 5);
@@ -146,7 +148,7 @@ public class MovementController : MonoBehaviour
             timeElapsed = 0;
         }
 
-        if(IsGrounded() && Input.GetAxisRaw("Horizontal") != 0)
+        if(grounded && Input.GetAxisRaw("Horizontal") != 0)
         {
             audioController.PlayWalk();
         }
@@ -154,6 +156,8 @@ public class MovementController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        float distance = 0.2f;
+      
         if(!stunned){
             if(Input.GetAxisRaw("Horizontal") > 0){
                 Legs.GetComponent<SpriteRenderer>().sprite = legs_right;
@@ -166,6 +170,10 @@ public class MovementController : MonoBehaviour
             if(!CheckStairs())
             {
                 transform.Translate((transform.right*Input.GetAxisRaw("Horizontal")).normalized *speed*Time.deltaTime);        
+            } 
+            else 
+            {
+              distance = 0.5f;
             }
 
 
@@ -176,6 +184,8 @@ public class MovementController : MonoBehaviour
                 isJumping = false;
             }
         } 
+
+        grounded = IsGrounded(distance);
     }
     
     bool  CheckStairs()
@@ -208,17 +218,16 @@ public class MovementController : MonoBehaviour
        } 
        else
        {
-            rb.gravityScale = 2.5f;     
+           rb.gravityScale = 2.5f;     
        }
 
        return false;
     
     }
-    bool IsGrounded()
+    bool IsGrounded(float distance)
     {
         Vector2 position = groundPoint.position;
         Vector2 direction = Vector2.down;
-        float distance = 0.25f; 
 
         
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
