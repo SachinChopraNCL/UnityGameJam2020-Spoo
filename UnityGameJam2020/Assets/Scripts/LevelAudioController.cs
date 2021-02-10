@@ -40,9 +40,9 @@ public class LevelAudioController : MonoBehaviour
       }
     }
 
-    public void FadeOut()
+    public void FadeOut(float delay)
     {
-      fade = StartCoroutine(StartFade(levelAudio, 1.5f, 0));
+      fade = StartCoroutine(StartFade(levelAudio, delay, 0));
     }
 
     public void PlayAmbient()

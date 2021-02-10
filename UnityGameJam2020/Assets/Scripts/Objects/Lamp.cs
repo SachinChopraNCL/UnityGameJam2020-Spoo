@@ -73,7 +73,9 @@ public class Lamp : MonoBehaviour
             {
                 if(lampLight.pointLightOuterRadius <= 6)
                 {
-                    levelAudioController.FadeOut();
+                    float timeFadeRatio = 0.25f;
+
+                    levelAudioController.FadeOut(timeFadeRatio * rateMin);
                 }
                 playHighFire = true;
                 float ratio = ((float) (outerRadius / rateMin)) * Time.deltaTime;
