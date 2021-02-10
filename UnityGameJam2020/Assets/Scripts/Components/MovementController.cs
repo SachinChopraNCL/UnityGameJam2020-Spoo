@@ -40,6 +40,8 @@ public class MovementController : MonoBehaviour
 
     private bool isOnStairs = false;
 
+    private bool wasJumping = false;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();    
@@ -50,7 +52,6 @@ public class MovementController : MonoBehaviour
     
     void Update()
     {
-        //audioController.PlayWalk();
         if(!stunned){
             Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -217,7 +218,7 @@ public class MovementController : MonoBehaviour
     {
         Vector2 position = groundPoint.position;
         Vector2 direction = Vector2.down;
-        float distance = 0.5f; 
+        float distance = 0.25f; 
 
         
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);

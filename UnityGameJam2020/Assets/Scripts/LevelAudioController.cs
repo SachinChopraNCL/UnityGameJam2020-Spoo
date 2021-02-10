@@ -10,11 +10,6 @@ public class LevelAudioController : MonoBehaviour
     AudioSource levelAudio;
 
     Coroutine fade;
-
-    void Update()
-    {
-      Debug.Log(levelAudio.clip);
-    }
     void Start()
     {
        GameObject[] objs = GameObject.FindGameObjectsWithTag("AudioSource");

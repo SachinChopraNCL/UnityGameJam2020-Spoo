@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5180986292099685692}
   - component: {fileID: 5180986292099685693}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: CollisionPoint
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ MonoBehaviour:
   - {x: -0.07786996, y: 0.08457497, z: 0}
   m_ShapePathHash: -6044862
   m_Mesh: {fileID: 0}
-  m_InstanceId: -58102
+  m_InstanceId: 22956
 --- !u!50 &9131433300200235537
 Rigidbody2D:
   serializedVersion: 4
