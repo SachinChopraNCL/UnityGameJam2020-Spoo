@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9124a075ddb6d498a13ee0590c6747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 75
+  health: 50
   player: {fileID: 0}
   startingPosition: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 0}
