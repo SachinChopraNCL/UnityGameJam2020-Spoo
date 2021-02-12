@@ -66,27 +66,22 @@ public class Torch : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        Vector2 forward = new Vector2(1,0);
-        float angle = 90;
-        Vector2 dir =  torchLight.transform.rotation * Quaternion.Euler(0,0,angle) * forward;
-        Vector2 normDir = dir.normalized;
-        int finalMask = ~(playerLayer | torchLayer);
-        RaycastHit2D rayCol = Physics2D.Raycast(torchLight.transform.position, normDir, 25,  finalMask);
-
-
-        
-        Debug.DrawRay(torchLight.transform.position, normDir);
-        
-        if(rayCol.collider != null  && (rayCol.collider.gameObject.layer == 13 || rayCol.collider.gameObject.layer == 14))
+        if(col.gameObject.layer == 13 || col.gameObject.layer == 14)
         {
-            if(col.gameObject.layer == 13)
+            Vector2 dir =  col.gameObject.transform.position -  torchLight.transform.position;
+            Vector2 normDir = dir.normalized;
+            int finalMask =  ~(playerLayer | torchLayer);
+            RaycastHit2D rayCol = Physics2D.Raycast(torchLight.transform.position, normDir, 25, finalMask);
+            Debug.DrawRay(torchLight.transform.position, normDir);
+            Debug.Log(rayCol.collider.gameObject);
+            if( rayCol.collider != null && rayCol.collider.gameObject.layer == 13)
             {
                 GameObject ghostObject = col.gameObject;
                 Enemy enemy = ghostObject.GetComponent<Enemy>();
-                ghostObject.GetComponent<AIPath>().maxSpeed *= 0.705f;
+                ghostObject.GetComponent<AIPath>().maxSpeed *= 0.6f;
                 enemy.health -= 1;
             }
-            if(col.gameObject.layer == 14)
+            else if(rayCol.collider != null && rayCol.collider.gameObject.layer == 14)
             {
                 Lamp currentLamp = col.gameObject.GetComponent<Lamp>();
                 currentLamp.isCharging = true; 
