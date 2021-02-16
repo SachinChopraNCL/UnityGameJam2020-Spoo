@@ -21,6 +21,7 @@ public class Torch : MonoBehaviour
 
     public LayerMask torchLayer;
     public LayerMask playerLayer;
+    public LayerMask defaultLayer; 
     public Animator animator;
 
     public float rayCastDistance;
@@ -70,7 +71,7 @@ public class Torch : MonoBehaviour
         {
             Vector2 dir =  col.gameObject.transform.position -  torchLight.transform.position;
             Vector2 normDir = dir.normalized;
-            int finalMask =  ~(playerLayer | torchLayer);
+            int finalMask =  ~(playerLayer | torchLayer | defaultLayer);
             RaycastHit2D rayCol = Physics2D.Raycast(torchLight.transform.position, normDir, 25, finalMask);
             Debug.DrawRay(torchLight.transform.position, normDir);
             Debug.Log(rayCol.collider.gameObject);

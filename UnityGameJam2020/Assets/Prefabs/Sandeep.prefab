@@ -159,6 +159,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  defaultLayer:
+    serializedVersion: 2
+    m_Bits: 1
   animator: {fileID: 0}
   rayCastDistance: 7
 --- !u!212 &4011279081334479112

@@ -22,12 +22,12 @@ public class DoorScript : MonoBehaviour
                 doorSound.PlayDoor();
                 switch (sceneName)
                 {
-                    case "Level_1": SceneManager.LoadScene("Level_2"); break;
-                    case "Level_2": SceneManager.LoadScene("Level_3"); break;
-                    case "Level_3": SceneManager.LoadScene("Level_4"); break;
-                    case "Level_4": SceneManager.LoadScene("Level_5"); break;
-                    case "Level_5": SceneManager.LoadScene("Level_6"); break;
-                    case "Level_6": SceneManager.LoadScene("Credits");Destroy(GameObject.FindGameObjectWithTag("AudioSource"));break;
+                    case "Level_1": SceneManager.LoadScene("Level_2");Cursor.visible = false; break;
+                    case "Level_2": SceneManager.LoadScene("Level_3");Cursor.visible = false; break;
+                    case "Level_3": SceneManager.LoadScene("Level_4");Cursor.visible = false; break;
+                    case "Level_4": SceneManager.LoadScene("Level_5");Cursor.visible = false; break;
+                    case "Level_5": SceneManager.LoadScene("Level_6");Cursor.visible = false; break;
+                    case "Level_6": SceneManager.LoadScene("Credits");Cursor.visible = true;Destroy(GameObject.FindGameObjectWithTag("AudioSource"));break;
                 }
             }
         }

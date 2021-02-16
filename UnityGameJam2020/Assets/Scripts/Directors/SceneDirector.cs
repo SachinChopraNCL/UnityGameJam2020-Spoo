@@ -10,6 +10,7 @@ public class SceneDirector: MonoBehaviour{
         if(scene == "Level_1")
         {
             Destroy(GameObject.FindGameObjectWithTag("AudioSource"));
+            Cursor.visible = false;
         }
         SceneManager.LoadScene(scene);
     }
